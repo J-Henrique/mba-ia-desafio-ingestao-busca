@@ -1,3 +1,5 @@
+from langchain.prompts import PromptTemplate
+
 PROMPT_TEMPLATE = """
 CONTEXTO:
 {contexto}
@@ -26,4 +28,5 @@ RESPONDA A "PERGUNTA DO USUÁRIO"
 """
 
 def search_prompt(question=None):
-    pass
+    prompt = PromptTemplate.from_template(PROMPT_TEMPLATE)
+    return prompt.format(contexto="Teste", pergunta=question)

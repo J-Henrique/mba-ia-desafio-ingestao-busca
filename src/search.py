@@ -1,5 +1,5 @@
 from langchain.prompts import PromptTemplate
-from src.ingest import get_vector_store
+from ingest import get_vector_store
 
 PROMPT_TEMPLATE = """
 CONTEXTO:

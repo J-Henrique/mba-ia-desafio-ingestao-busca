@@ -1,23 +1,23 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-
-from search import search_prompt
 from langchain_openai import ChatOpenAI
+from search import search_prompt
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def main():
-    question = input("Pergunta: ")
-    chain = search_prompt(question)
+    question = input("PERGUNTA: ")
+    chain = search_prompt | _get_model()
 
     if not chain:
         print("Não foi possível iniciar o chat. Verifique os erros de inicialização.")
         return
 
-    # model = ChatOpenAI(model="gpt-5-nano", temperature=0.5)
-    model = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5)
-    response = model.invoke(chain)
-    print(response.content)
+    response = chain.invoke(question)
+    print(f"RESPOSTA: {response.content}")
+
+def _get_model():
+    # return ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.5)
+    return ChatOpenAI(model="gpt-5-mini", temperature=0.5)
 
 if __name__ == "__main__":
     main()

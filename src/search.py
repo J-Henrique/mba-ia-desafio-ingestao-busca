@@ -1,4 +1,5 @@
 from langchain.prompts import PromptTemplate
+from src.ingest import get_vector_store
 
 PROMPT_TEMPLATE = """
 CONTEXTO:
@@ -28,5 +29,8 @@ RESPONDA A "PERGUNTA DO USUÁRIO"
 """
 
 def search_prompt(question=None):
-    prompt = PromptTemplate.from_template(PROMPT_TEMPLATE)
-    return prompt.format(contexto="Teste", pergunta=question)
+    store = get_vector_store()
+    docs = store.similarity_search(question, k=10)
+    context = "\n\n---\n\n".join([doc.page_content for doc in docs])
+    formatted_prompt = PromptTemplate.from_template(PROMPT_TEMPLATE).format(contexto=context, pergunta=question)
+    return formatted_prompt
